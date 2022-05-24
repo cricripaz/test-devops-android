@@ -2,15 +2,12 @@ name: Android CI
 
 on:
   push:
-    branches: 
-      - master
-      - staging
-      - dev
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
 jobs:
-  build:
+  lint:
 
     runs-on: ubuntu-latest
 
@@ -25,11 +22,12 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build DEV Android Application
-      run: ./gradlew build
-    - name: Upload apk
+    - name: Run Lint
+      run: ./gradlew lintDebug
+
+    - name: Upload html test report
       uses: actions/upload-artifact@v2
       with:
-        name: devDeug APP
-        path: ./app/build/outputs/apk/devs/debug/app-dev-debug.apk
+        name: index.hmtl
+        path: app/build/reports/lint-results-debug.html
 
